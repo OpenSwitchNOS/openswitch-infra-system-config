@@ -57,6 +57,14 @@ class openstack_project::slave_common(
     mode   => '0440',
   }
 
+  file { '/etc/sudoers.d/cmd-for-jenkins-user':
+    ensure => present,
+    source => 'puppet:///modules/openstack_project/slave/cmd-for-jenkins-user.sudo',
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0440',
+  }
+
   # Temporary for debugging glance launch problem
   # https://lists.launchpad.net/openstack/msg13381.html
   # NOTE(dprince): ubuntu only as RHEL6 doesn't have sysctl.d yet
