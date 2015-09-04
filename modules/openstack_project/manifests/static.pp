@@ -112,6 +112,11 @@ class openstack_project::static (
     require => User['jenkins'],
   }
 
+  exec { "Install Swagger-UI":
+    unless   => "ls /srv/static/api/rest/",
+    command  => "mkdir /srv/static/api/rest && git clone https://github.com/swagger-api/swagger-ui.git /srv/static/api/rest/.",
+    require  => User['jenkins'],
+  }
   ###########################################################
   # Logs
 
