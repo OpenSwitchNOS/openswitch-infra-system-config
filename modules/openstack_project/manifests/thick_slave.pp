@@ -11,11 +11,11 @@ class openstack_project::thick_slave(
   # VSI setup
   include docker
 
-#  exec {"Docker membership":
-#    unless => "grep -q 'docker\\S*jenkins' /etc/group",
-#    command => "usermod -aG docker jenkins",
-#    require => User['jenkins'],
-#  }
+  exec {"Docker_membership":
+    unless => "groups jenkins | grep docker",
+    command => "usermod -aG docker jenkins",
+    require => User['root'],
+  }
 
   # Packages that most jenkins slaves (eg, unit test runners) need
   $packages = [
