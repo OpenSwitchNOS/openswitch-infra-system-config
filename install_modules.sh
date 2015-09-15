@@ -34,7 +34,7 @@ declare -A MODULES
 # key:value is source location, revision to checkout
 declare -A SOURCE_MODULES
 
-# Array of modues to be installed from source and without dependency resolution from openstack git
+# Array of modues to be installed from source and without dependency resolution from openswitch git
 # key:value is source location, revision to checkout
 declare -A INTEGRATION_MODULES
 

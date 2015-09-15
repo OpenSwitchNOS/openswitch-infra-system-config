@@ -21,7 +21,7 @@ export PUPPET_INTEGRATION_TEST=1
 
 cat > clonemap.yaml <<EOF
 clonemap:
-  - name: openstack-infra/project-config
+  - name: openswitch-infra/project-config
     dest: /etc/project-config
   - name: '(.*?)/puppet-(.*)'
     dest: '/etc/puppet/modules/\2'
@@ -36,7 +36,7 @@ declare -A MODULES
 # key:value is source location, revision to checkout
 declare -A SOURCE_MODULES
 
-# Array of modues to be installed from source and without dependency resolution from openstack git
+# Array of modues to be installed from source and without dependency resolution from openswitch git
 # key:value is source location, revision to checkout
 declare -A INTEGRATION_MODULES
 
@@ -50,8 +50,8 @@ for MOD in ${!INTEGRATION_MODULES[*]}; do
 done
 
 sudo -E /usr/zuul-env/bin/zuul-cloner -m clonemap.yaml --cache-dir /opt/git \
-    git://git.openstack.org \
-    openstack-infra/project-config \
+    git://git.openswitch.net \
+    openswitch-infra/project-config \
     $project_names
 
 
@@ -87,7 +87,7 @@ fi
 
 grep -v 127.0.1.1 /etc/hosts >/tmp/hosts
 HOST=`echo $HOSTNAME |awk -F. '{ print $1 }'`
-echo "127.0.1.1 $HOST.openstack.org $HOST" >> /tmp/hosts
+echo "127.0.1.1 $HOST.openswitch.net $HOST" >> /tmp/hosts
 sudo mv /tmp/hosts /etc/hosts
 
 sudo mkdir -p /var/run/puppet
