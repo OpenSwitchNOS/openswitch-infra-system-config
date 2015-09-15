@@ -35,9 +35,9 @@ import yaml
 MAILTO_RE = re.compile('mailto:(.*)')
 USERNAME_RE = re.compile('username:(.*)')
 EXTRA_ATC_RE = re.compile('^[^#][^:]*: ([^\(]*) \(([^@]*@[^\)]*)\) \[[^\[]*\]')
-PROJECTS_URL = ('https://git.openstack.org/cgit/openstack/governance/plain'
+PROJECTS_URL = ('https://git.openswitch.net/cgit/openswitch/governance/plain'
                 '/reference/projects.yaml')
-EXTRA_ATCS_URL = ('https://git.openstack.org/cgit/openstack/governance/plain'
+EXTRA_ATCS_URL = ('https://git.openswitch.net/cgit/openswitch/governance/plain'
                   '/reference/extra-atcs')
 
 
@@ -102,7 +102,7 @@ def repo_stats(repo, output, begin, end, keyfile, user):
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     client.load_system_host_keys()
     client.connect(
-        'review.openstack.org', port=29418,
+        'review.openswitch.net', port=29418,
         key_filename=os.path.expanduser(keyfile), username=user)
     stdin, stdout, stderr = client.exec_command(
         'gerrit query %s --all-approvals --format JSON' % QUERY)
