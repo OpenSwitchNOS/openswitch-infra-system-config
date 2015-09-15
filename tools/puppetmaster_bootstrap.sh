@@ -5,7 +5,7 @@ set -x
 
 apt-get update
 apt-get install git
-git clone https://git.openstack.org/openstack-infra/system-config
+git clone https://git.openswitch.net/openswitch-infra/system-config
 
 cd system-config
 
@@ -16,7 +16,7 @@ node default {
     update_slave => false,
     sysadmins    => hiera('sysadmins', []),
     version      => '3.6.',
-    ca_server    => 'ci-puppetmaster.openstack.org',
+    ca_server    => 'ci-puppetmaster.openswitch.net',
     puppetdb     => false,
   }
 }
