@@ -91,6 +91,13 @@ class openstack_project::static (
     require => User['jenkins'],
   }
 
+  file { '/srv/static/archive/periodic':
+    ensure  => directory,
+    owner   => 'jenkins',
+    group   => 'jenkins',
+    require => User['jenkins'],
+  }
+
   ###########################################################
   # sstate
 
