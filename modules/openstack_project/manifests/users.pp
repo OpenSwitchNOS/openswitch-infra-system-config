@@ -51,6 +51,15 @@ class openstack_project::users {
     uid      => 2004,
     gid      => 2004,
   }
+
+  @user::virtual::localuser { 'jeremybbrown':
+    realname => 'Jeremy Brown',
+    sshkeys  => 'MIIBuwIBAAKBgQCiJlGmHG3nDcvB4bVEr3h9ULm8hIRENMXUEuLcEnXN6lhJuAVcXI/L1Ze+8hmeCA9Nr0XBudKwve0nasNmLeJ/9T7187KGqdnfM+Zj2xxRm2YzOtyyWU3WZdOFycp7riWCce95hx3C7USkW2PWcKEdFFo1sBtEapDDPn5Qfd631QIVAIa8RARBwqwxYemgD4EAAWbJSFNBAoGAdqrVEybdwjMnogzSmFH4UzFh9vKURzNjUX6n1Z1zE9fbUfcjmLxYDo6Ob/Litgnmd7U6gcCwwiLKGb7tfPe4QGE5h4RqaN3Sh0aCUX1d1QNV0XZ/hgWVJkSaMi56P7bmvwr1qHTea5fJxXZWsdEu1/LyREfT6dLtfNlrRtAyK3kCgYEAnNcwPijlTVVqGXvObgnnVHLdNP3hNUAdRNXoPO2ho+x9NHB4RzEhbZsMzIyZi03UJws0c8OdNZdm62OyZs1S5IJAZ0Yv73jtYmwjJxuo+6QgTUR4U47os7DaJi/qyNbqWJBz7Zsqjgss7xlPrtzKhYbVkJMjm4lRFt4Gh4N2/WMCFHg7xDlO+p1zkXVjvn9+Ewsid6OP',
+    key_id   => 'jeremy.b.brown2@hpe.com',
+    uid      => 2005,
+    gid      => 2005,
+  }
+
 }
 
 }
