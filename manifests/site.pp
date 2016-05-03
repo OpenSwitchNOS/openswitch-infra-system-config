@@ -131,6 +131,69 @@ node 'review-dev.openstack.org' {
   }
 }
 
+node 'review-dev.openswitch.net', 'review-aws.openswitch.net' {
+  class { 'openstack_project::review':
+    project_config_repo                 => 'https://github.com/dramirezp/infra_project-config.git',
+    github_oauth_token                  => hiera('gerrit_github_token', 'XXX'),
+    github_project_username             => hiera('github_project_username', 'username'),
+    github_project_password             => hiera('github_project_password', 'XXX'),
+    mysql_host                          => hiera('gerrit_mysql_host', 'localhost'),
+    mysql_password                      => hiera('gerrit_mysql_password', 'XXX'),
+    email_private_key                   => hiera('gerrit_email_private_key', 'XXX'),
+    gerritbot_password                  => hiera('gerrit_gerritbot_password', 'XXX'),
+    gerritbot_ssh_rsa_key_contents      => hiera('gerritbot_ssh_rsa_key_contents', 'XXX'),
+    gerritbot_ssh_rsa_pubkey_contents   => hiera('gerritbot_ssh_rsa_pubkey_contents', 'XXX'),
+    ssl_cert_file_contents              => hiera('gerrit_ssl_cert_file_contents', 'XXX'),
+    ssl_key_file_contents               => hiera('gerrit_ssl_key_file_contents', 'XXX'),
+    ssl_chain_file_contents             => hiera('gerrit_ssl_chain_file_contents', 'XXX'),
+    ssh_dsa_key_contents                => hiera('gerrit_ssh_dsa_key_contents', 'XXX'),
+    ssh_dsa_pubkey_contents             => hiera('gerrit_ssh_dsa_pubkey_contents', 'XXX'),
+    ssh_rsa_key_contents                => hiera('gerrit_ssh_rsa_key_contents', 'XXX'),
+    ssh_rsa_pubkey_contents             => hiera('gerrit_ssh_rsa_pubkey_contents', 'XXX'),
+    ssh_project_rsa_key_contents        => hiera('gerrit_project_ssh_rsa_key_contents', 'XXX'),
+    ssh_project_rsa_pubkey_contents     => hiera('gerrit_project_ssh_rsa_pubkey_contents', 'XXX'),
+    ssh_welcome_rsa_key_contents        => hiera('welcome_message_gerrit_ssh_private_key', 'XXX'),
+    ssh_welcome_rsa_pubkey_contents     => hiera('welcome_message_gerrit_ssh_public_key', 'XXX'),
+    ssh_replication_rsa_key_contents    => hiera('gerrit_replication_ssh_rsa_key_contents', 'XXX'),
+    ssh_replication_rsa_pubkey_contents => hiera('gerrit_replication_ssh_rsa_pubkey_contents', 'XXX'),
+    lp_sync_consumer_key                => hiera('gerrit_lp_consumer_key', 'XXX'),
+    lp_sync_token                       => hiera('gerrit_lp_access_token', 'XXX'),
+    lp_sync_secret                      => hiera('gerrit_lp_access_secret', 'XXX'),
+    contactstore_appsec                 => hiera('gerrit_contactstore_appsec', 'XXX'),
+    contactstore_pubkey                 => hiera('gerrit_contactstore_pubkey', 'XXX'),
+    sysadmins                           => hiera('sysadmins', []),
+    swift_username                      => hiera('swift_store_user', 'username'),
+    swift_password                      => hiera('swift_store_key', 'XXX'),
+    smtpserver                          => 'email-smtp.us-west-2.amazonaws.com',
+    smtpuser                            => hiera('smtpuser', 'XXX'),
+    smtppass                            => hiera('smtppass', 'XXX'),
+    oauth_github_client_id              => hiera('gerrit_github_client_id', 'XXX'),
+    oauth_github_client_secret          => hiera('gerrit_github_client_secret', 'XXX'),
+  }
+  class { 'gerrit::mysql':
+    mysql_root_password                 => hiera('gerrit_mysql_root_password', 'XXX'),
+    database_name                       => 'reviewdb',
+    database_user                       => 'gerrit2',
+    database_password                   => hiera('gerrit_mysql_password', 'XXX'),
+  }
+}
+
+# Node-OS: precise
+node 'jenkins-dev.openswitch.net' {
+  class { 'openstack_project::jenkins':
+    project_config_repo     => 'https://github.com/dramirezp/infra_project-config.git',
+    jenkins_jobs_password   => hiera('jenkins_jobs_password', 'XXX'),
+    jenkins_ssh_private_key => hiera('jenkins_ssh_private_key_contents', 'XXX'),
+    ssl_cert_file_contents  => hiera('jenkins_ssl_cert_file_contents', 'XXX'),
+    ssl_key_file_contents   => hiera('jenkins_ssl_key_file_contents', 'XXX'),
+    ssl_chain_file_contents => hiera('jenkins_ssl_chain_file_contents', 'XXX'),
+    sysadmins               => hiera('sysadmins', []),
+#    zmq_event_receivers     => ['logstash.openstack.org',
+#                                'nodepool.openstack.org',
+#    ],
+  }
+}
+
 # Node-OS: precise
 node 'jenkins.openswitch.net' {
   class { 'openstack_project::jenkins':
@@ -151,6 +214,21 @@ node 'jenkins.openswitch.net' {
 
 # Node-OS: precise
 node /^jenkins\d+\.openswitch\.net$/ {
+  class { 'openstack_project::jenkins':
+    jenkins_jobs_password   => hiera('jenkins_jobs_password', 'XXX'),
+    jenkins_ssh_private_key => hiera('jenkins_ssh_private_key_contents', 'XXX'),
+    ssl_cert_file           => '/etc/ssl/certs/ssl-cert-snakeoil.pem',
+    ssl_key_file            => '/etc/ssl/private/ssl-cert-snakeoil.key',
+    ssl_chain_file          => '',
+    sysadmins               => hiera('sysadmins', []),
+#    zmq_event_receivers     => ['logstash.openstack.org',
+#                                'nodepool.openstack.org',
+#    ],
+  }
+}
+
+# Node-OS: precise
+node /^jenkins\d+\-dev.openswitch\.net$/ {
   class { 'openstack_project::jenkins':
     jenkins_jobs_password   => hiera('jenkins_jobs_password', 'XXX'),
     jenkins_ssh_private_key => hiera('jenkins_ssh_private_key_contents', 'XXX'),
@@ -535,6 +613,33 @@ node 'zuul.openswitch.net' {
   }
 }
 
+# Node-OS: precise
+# Node-OS: trusty
+node 'zuul-dev.openswitch.net' {
+  class { 'openstack_project::zuul_prod':
+    project_config_repo            => 'https://github.com/dramirezp/infra_project-config.git',
+    gerrit_server                  => 'review-dev.openswitch.net',
+    gerrit_user                    => 'zuul',
+    gerrit_ssh_host_key            => hiera('gerrit_ssh_rsa_pubkey_contents', 'XXX'),
+    zuul_ssh_private_key           => hiera('zuul_ssh_private_key_contents', 'XXX'),
+    #url_pattern                    => 'http://logs.openstack.org/{build.parameters[LOG_PATH]}',
+    #swift_authurl                  => 'https://identity.api.rackspacecloud.com/v2.0/',
+    #swift_user                     => 'infra-files-rw',
+    #swift_key                      => hiera('infra_files_rw_password', 'XXX'),
+    #swift_tenant_name              => hiera('infra_files_tenant_name', 'tenantname'),
+    #swift_region_name              => 'DFW',
+    #swift_default_container        => 'infra-files',
+    #swift_default_logserver_prefix => 'http://logs.openstack.org/',
+    #swift_default_expiry           => 14400,
+    zuul_url                       => 'http://zuul-dev.openswitch.net',
+    sysadmins                      => hiera('sysadmins', []),
+    #statsd_host                    => 'graphite.openstack.org',
+    gearman_workers                => [ # Required to open the ports to listen for them
+       'jenkins-dev.openswitch.net', '52.11.169.151',
+       'zm01-dev.openswitch.net', '52.33.196.156',
+    ],
+  }
+}
 
 # Node-OS: precise
 # Node-OS: trusty
@@ -551,9 +656,22 @@ node /^zm\d+\.openswitch\.net$/ {
 
 # Node-OS: precise
 # Node-OS: trusty
+node /^zm\d+\-dev.openswitch\.net$/ {
+  class { 'openstack_project::zuul_merger':
+    gearman_server       => 'zuul-dev.openswitch.net',
+    gerrit_server        => 'review-dev.openswitch.net',
+    gerrit_user          => 'zuul',
+    gerrit_ssh_host_key  => hiera('gerrit_ssh_rsa_pubkey_contents', 'XXX'),
+    zuul_ssh_private_key => hiera('zuul_ssh_private_key_contents', 'XXX'),
+    sysadmins            => hiera('sysadmins', []),
+  }
+}
+
+# Node-OS: precise
+# Node-OS: trusty
 node 'zuul-dev.openstack.org' {
   class { 'openstack_project::zuul_dev':
-    project_config_repo  => 'https://git.openswitch.net/infra/project-config',
+    project_config_repo  => 'https://github.com/dramirezp/infra_project-config.git',
     gerrit_server        => 'review-dev.openstack.org',
     gerrit_user          => 'zuul',
     gerrit_ssh_host_key  => hiera('gerrit_dev_ssh_rsa_pubkey_contents', 'XXX'),
@@ -626,6 +744,24 @@ node /^slave-vsi-.*\.openswitch\.net$/ {
   }
 }
 
+node /^openswitch-slave-.*\-dev.openswitch\.net$/ {
+  include openstack_project
+  class { 'openstack_project::slave':
+    ssh_key   => $openstack_project::jenkins_ssh_key,
+    sysadmins               => hiera('sysadmins', []),
+    token     => hiera('jenkins_jobs_password','XXX'),
+  }
+}
+
+# vsi slave with certain sudo cmd
+node /^slave-vsi-.*\-dev.openswitch\.net$/ {
+  include openstack_project
+  class { 'openstack_project::slave_vsi':
+    ssh_key   => $openstack_project::jenkins_ssh_key,
+    sysadmins               => hiera('sysadmins', []),
+    token     => hiera('jenkins_jobs_password','XXX'),
+  }
+}
 
 # Node-OS: precise
 node 'proposal.slave.openstack.org' {
