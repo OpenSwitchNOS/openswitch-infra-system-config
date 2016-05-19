@@ -128,6 +128,8 @@ node 'review-dev.openswitch.net' {
     lp_sync_token                   => hiera('gerrit_dev_lp_access_token', 'XXX'),
     lp_sync_secret                  => hiera('gerrit_dev_lp_access_secret', 'XXX'),
     sysadmins                       => hiera('sysadmins', []),
+    oauth_github_client_id          => hiera('gerrit_dev_github_client_id', 'XXX'),
+    oauth_github_client_secret      => hiera('gerrit_dev_github_client_secret', 'XXX'),
   }
   class { 'gerrit::mysql':
     mysql_root_password                 => hiera('gerrit_dev_mysql_root_password', 'XXX'),
