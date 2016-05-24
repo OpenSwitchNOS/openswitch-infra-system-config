@@ -51,7 +51,10 @@ class openstack_project::zuul_dev(
     require    => $::project_config::config_dir,
   }
 
-  class { '::zuul::merger': }
+  class { '::zuul::server':
+    layout_dir => $::project_config::zuul_layout_dir,
+    require    => $::project_config::config_dir,
+  }
 
   if $gerrit_ssh_host_key != '' {
     file { '/home/zuul/.ssh':
