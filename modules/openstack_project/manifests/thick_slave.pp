@@ -106,8 +106,9 @@ exec { 'apt-get-update':
     provider => pip,
  }
 
-  package { 'yamllint':
+  package { 'yaml-lint':
     ensure => present,
+    provider => gem,
  }
 
   package { 'jenkins-job-builder':
