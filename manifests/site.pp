@@ -147,6 +147,8 @@ node 'review-dev.openswitch.net' {
 
 # Node-OS: precise
 node 'jenkins.openswitch.net' {
+  include jenkins
+  include jenkins::master
   class { 'openstack_project::jenkins':
     project_config_repo     => 'https://git.openswitch.net/infra/project-config',
     jenkins_jobs_password   => hiera('jenkins_jobs_password', 'XXX'),
@@ -669,6 +671,11 @@ node /^slave-jk-.*\-dev.openswitch\.net$/ {
 # vsi slave with certain sudo cmd
 node /^slave-vsi-.*\-dev.openswitch\.net$/ {
   include openstack_project
+  class { 'jenkins::slave':
+    masterurl => 'https://jenkins.openswitch.net',
+    ui_user   => 'gerrig',
+    ui_pass   => '',
+  }
   class { 'openstack_project::slave_vsi':
     ssh_key   => $openstack_project::jenkins_dev_ssh_key,
     sysadmins               => hiera('sysadmins', []),
