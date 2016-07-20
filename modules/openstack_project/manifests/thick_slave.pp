@@ -7,6 +7,7 @@ class openstack_project::thick_slave(
 ){
 
   include openstack_project::jenkins_params
+  include jenkins
 
   # VSI setup
   include docker
@@ -212,6 +213,12 @@ exec { 'apt-get-update':
     user => 'root',
     hour => "*/6",
     minute => "0",
+  }
+
+  class { 'jenkins::slave':
+    masterurl => 'https://jenkins.openswitch.net',
+    ui_user   => 'gerrig',
+    ui_pass   => '',
   }
 
   case $::osfamily {
