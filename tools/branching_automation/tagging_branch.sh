@@ -1,7 +1,7 @@
 #!/bin/bash
 #Include the path from where the files are. Find files with .bb extensions and remove the extension. Searching for SRCREV value in each repository. Put the repository name and hash value together.
 a=rel/dill
-pwd='/ws/melachur/ops-build/yocto/openswitch/meta-distro-openswitch/recipes-ops'
+pwd='/Users/yingwang/ws/openswitch/ops-build/yocto/openswitch/meta-distro-openswitch/recipes-ops'
 auto_rev="\${AUTOREV}"
 declare -A keys
 echo $1
